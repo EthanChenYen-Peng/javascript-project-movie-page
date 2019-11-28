@@ -11,15 +11,8 @@ const fetchData = async searchTerm => {
 };
 
 const input = document.querySelector("#search-input");
-let timeoutID;
 
-const onInput = () => {
-  if (timeoutID) {
-    clearInterval(timeoutID);
-  }
-  timeoutID = setTimeout(() => {
-    const searchTerm = event.target.value;
-    fetchData(searchTerm);
-  }, AUTOCOMPLETE_LATENCY);
+const onInput = event => {
+  fetchData(event.target.value);
 };
-input.addEventListener("input", onInput);
+input.addEventListener("input", debounce(onInput, 1000));
